@@ -77,11 +77,8 @@ function ClearScreen {
 
 	tput cup 0 0
 	
-	if [ $_color = "on" ]; then
-		echo -ne "${_cor[1]}$_clearScreen"
-	else
-		echo -ne "\E[00;30;47m$_clearScreen"
-	fi
+	
+	echo -ne "\E[00;30;47m$_clearScreen"
 
 	tput cup $_initY 0
 
@@ -282,26 +279,7 @@ function Drawhole {
 			for (( _l=37; _l<40; _l++ )); do
 				_canvas[$_l]="${_canvas[$_l]:0:$((_holeX-2))}${_holeDraw}${_canvas[$_l]:$((_holeL+2))}"
 
-				if [ $_color = "on" ]; then
-					_tmp=${_canvasC[0]}
-					((_tmp++))
-					_canvasC[$_tmp]=${_cor[2]}
-					if [ $((_holeX - _edgeWidth)) -lt 0 ]; then
-						_canvasP[$_tmp]=$((_width * _l))
-					else
-						_canvasP[$_tmp]=$(( (_width * _l) + _holeX - _edgeWidth ))
-					fi
-					((_tmp++))
-					_canvasC[$_tmp]=${_cor[3]}
-					if [ $((_holeL - _edgeWidth)) -gt $_width ]; then
-						_canvasP[$_tmp]=$(( _width * (_l+1) ))
-					else
-						_canvasP[$_tmp]=$(( (_width * _l) + _holeL - _edgeWidth ))
-					fi
-
-					_canvasC[0]=$_tmp
-
-				fi
+				
 
 			done
 
@@ -394,7 +372,6 @@ function SaveSettings {
 
 	echo "_topScore=$_topScore">.settings
 	echo "_sound=$_sound">>.settings
-	echo "_color=$_color">>.settings
 
 }
 
@@ -403,7 +380,7 @@ function Splash {
 	
 	_screenGame="SPLASH"
 
-	LoadColors
+	
 
 	
 	_jogX=0
@@ -464,7 +441,6 @@ function GameOver {
 	
 	_screenGame="GAMEOVER"
 
-	LoadColors
 
 	
 	for (( _y=0; _y<13; _y++ )); do
@@ -501,7 +477,6 @@ function GameWin {
 	
 	_screenGame="GAMEWIN"
 
-	LoadColors
 
 	
 	for (( _y=0; _y<10; _y++ )); do
@@ -564,55 +539,7 @@ function MontaMenu {
 
 }
 
-function LoadColors {
 
-	if [ $_color = "off" ]; then
-		return
-	fi
-
-	
-	_canvasC=(0)
-	_canvasP=(0)
-
-	_tmp=0
-
-	((_tmp++))
-	_canvasC[$_tmp]=${_cor[1]}
-	_canvasP[$_tmp]=0
-
-	((_tmp++))
-	_canvasC[$_tmp]=${_cor[2]}
-	_canvasP[$_tmp]=$((_width * 2))
-
-	case $_screenGame in
-
-	"MENU")
-		_tmp2=${#_spaceIni}
-		for ((_k=5; _k<18; _k++)); do
-			((_tmp++))
-			_canvasC[$_tmp]=${_cor[0]}
-			_canvasP[$_tmp]=$(((_width * _k) + _tmp2 + 15))
-			((_tmp++))
-			_canvasC[$_tmp]=${_cor[2]}
-			_canvasP[$_tmp]=$(((_width * _k) + _tmp2 + 65))
-		done
-
-		((_tmp++))
-		_canvasC[$_tmp]=${_cor[3]}
-		_canvasP[$_tmp]=$((_width * 37))
-		;;
-
-	"GAME"|"DEAD"|"WIN"|"WINPOINT") 
-		((_tmp++))
-		_canvasC[$_tmp]=${_cor[3]}
-		_canvasP[$_tmp]=$((_width * 37))
-		;;
-
-	esac
-
-	_canvasC[0]=$_tmp
-
-}
 
 
 function Drawplayer {
@@ -676,7 +603,7 @@ function DrawScore {
 	_canvas[1]="${_edgeScreen}${_spaceIni}${_scoreTitle1:0:$_tmpScorei}${_score}${_scoreTitle1:11:${_tmpCoini}}${_coins}${_scoreTitle1:32:$_tmpTimei}${_time}${_scoreTitle1:69}${_spaceFim}${_edgeScreen}"
 
 	
-	_texto="[s]sound:$_sound [c]color:$_color LPS:$_lps"
+	_texto="[s]sound:$_sound  LPS:$_lps"
 
 
 	_l=${#_texto}
@@ -731,27 +658,7 @@ function Render {
 		_screen+="${_canvas[$_k]}"
 	done
 
-	if [ $_color = "on" ]; then
-
-
-
-		BubbleSort
-
-
-
-
-
-
-
-
-				
-
-
-
-		for (( _k=_canvasC[0]; _k>0; _k-- )); do
-			_screen="${_screen:0:${_canvasP[$_k]}}${_canvasC[$_k]}${_screen:${_canvasP[$_k]}}"
-		done
-	fi
+	
 
 	
 	echo -ne "$_screen" 
@@ -760,73 +667,8 @@ function Render {
 
 }
 
-function QuickSort {
-
-	local _ini=$1
-	local _fim=$2
-	local _pivo=${_canvasP[$(( (_ini + _fim ) / 2 ))]}
-
-	while [ $_ini -lt $_fim ]; do
-
-		while [ ${_canvasP[$_ini]} -lt $_pivo ]; do
-			((_ini++))
-		done
-
-		while [ ${_canvasP[$_fim]} -gt $_pivo ]; do
-			((_fim--))
-		done
-
-		if [ $_ini -le $_fim ]; then
-			local _aux=${_canvasP[$_ini]}
-			_canvasP[$_ini]=${_canvasP[$_fim]}
-			_canvasP[$_fim]=$_aux
-
-			local _aux=${_canvasC[$_ini]}
-			_canvasC[$_ini]=${_canvasC[$_fim]}
-			_canvasC[$_fim]=$_aux
-
-			((_ini++))
-			((_fim--))
-		fi
-
-		if [ $_fim -gt $1 ]; then
-			QuickSort $1 $_fim
-		fi
-
-		if [ $_ini -lt $2 ]; then
-			QuickSort $_ini $2
-		fi
-	done
-
-}
 
 
-function BubbleSort {
-
-	for (( _k=(_canvasC[0]); _k>1; _k-- )); do
-
-		for (( _l=1; _l<_k; _l++ )); do
-			
-			(( _tmp= _l + 1 ))
-
-
-			if [ $((_canvasP[$_l])) -gt $((_canvasP[$_tmp])) ]; then
-
-				_tmpV=${_canvasP[$_tmp]} 
-				_canvasP[$_tmp]=${_canvasP[$_l]} 
-				_canvasP[$_l]=$_tmpV
-
-				_tmpC=${_canvasC[$_tmp]} 
-				_canvasC[$_tmp]=${_canvasC[$_l]} 
-				_canvasC[$_l]=$_tmpC
-
-			fi
-
-		done
-
-	done
-
-}
 
 
 function DrawCoin {
@@ -874,29 +716,7 @@ function DrawCoin {
 
 					_canvas[$_tmpCoinY]="${_canvas[$_tmpCoinY]:0:$_coinX}${_tmpS}${_canvas[$_tmpCoinY]:$_tmpf}"
 
-					if [ $_color = "on" ]; then
-
-						_tmp=${_canvasC[0]}
-						((_tmp++))
-						_canvasC[$_tmp]=${_cor[4]}
-
-						if [ $((_coinX - _edgeWidth)) -lt 0 ]; then
-							_canvasP[$_tmp]=$((_width * _tmpCoinY))
-						else
-							_canvasP[$_tmp]=$(( (_width * _tmpCoinY) + _coinX - _edgeWidth ))
-						fi
-
-						((_tmp++))
-						_canvasC[$_tmp]=${_cor[2]}
-						if [ $((_tmpf - _edgeWidth)) -gt $_width ]; then
-							_canvasP[$_tmp]=$(( _width * (_tmpCoinY+1) ))
-						else
-							_canvasP[$_tmp]=$(( (_width * _tmpCoinY) + _tmpf - _edgeWidth ))
-						fi
-
-						_canvasC[0]=$_tmp
-
-					fi
+					
 
 				done
 
@@ -1063,15 +883,7 @@ function ListenKey {
 		SaveSettings
 		;;
 
-	"c")
-		if [ $_color = "on" ]; then		
-			_color="off"
-		else
-			_color="on"
-		fi
-		SaveSettings
-		ClearScreen
-		;;
+	
 
 	esac
 
@@ -2325,7 +2137,6 @@ while true; do
 	ListenKey
 
 	if [ $_next = true ]; then
-		LoadColors
 
 		MoveEnemy
 
