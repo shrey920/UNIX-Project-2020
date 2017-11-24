@@ -511,32 +511,9 @@ function GameWin {
 	done
 
 	
+ _canvas[10]="${_edgeScreen}${_spaceIni}      				You Won!     		 ${_spaceFim}${_edgeScreen}" 
 
-_canvas[10]="${_edgeScreen}${_spaceIni}      █████    ████   █████    ████   █████   ██████  ██  ██   ████     ██      ${_spaceFim}${_edgeScreen}" 
-_canvas[11]="${_edgeScreen}${_spaceIni}      ██  ██  ██  ██  ██  ██  ██  ██  ██  ██  ██      ███ ██  ██        ██      ${_spaceFim}${_edgeScreen}" 
-_canvas[12]="${_edgeScreen}${_spaceIni}      █████   ██████  █████   ██████  █████   ████    ██ ███   ████     ██      ${_spaceFim}${_edgeScreen}" 
-_canvas[13]="${_edgeScreen}${_spaceIni}      ██      ██  ██  ██  ██  ██  ██  ██  ██  ██      ██  ██      ██            ${_spaceFim}${_edgeScreen}"   
-_canvas[14]="${_edgeScreen}${_spaceIni}      ██      ██  ██  ██  ██  ██  ██  █████   ██████  ██  ██   ████     ██      ${_spaceFim}${_edgeScreen}"  
-_canvas[15]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[16]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[17]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[18]="${_edgeScreen}${_spaceIni} TRABALHO EM SHELL SCRIPT                                                      ${_spaceFim}${_edgeScreen}"
-_canvas[19]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[20]="${_edgeScreen}${_spaceIni} FATEC CARAPICUIBA                                                             ${_spaceFim}${_edgeScreen}"
-_canvas[21]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[22]="${_edgeScreen}${_spaceIni} DISCIPLINA LSO (LABORATORIO DE SISTEMAS OPERACIONAIS)                         ${_spaceFim}${_edgeScreen}"
-_canvas[23]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[24]="${_edgeScreen}${_spaceIni} PROF. RUBENS                                                                  ${_spaceFim}${_edgeScreen}"
-_canvas[25]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[26]="${_edgeScreen}${_spaceIni} ALUNO DORIEDSON ALVES GALDINO DE OLIVEIRA                                     ${_spaceFim}${_edgeScreen}"
-_canvas[27]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[28]="${_edgeScreen}${_spaceIni} ALUNO VITOR AUGUSTO ANDRIOLI                                                  ${_spaceFim}${_edgeScreen}"
-_canvas[29]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-_canvas[30]="${_edgeScreen}${_spaceIni} ALUNO THIAGO ANDRE SILVA                                                      ${_spaceFim}${_edgeScreen}"
-_canvas[31]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
-
-
-	for (( _y=32; _y<_heightScreen; _y++ )); do
+	for (( _y=11; _y<50; _y++ )); do
 
 		_canvas[$_y]="${_edgeScreen}${_spaceScreen}${_edgeScreen}"
 
@@ -2315,7 +2292,7 @@ _clearBuffer=false
 
 
 if [ $_height -lt $_heightScreen ] || [ $_width -lt $_widthScreen ]; then
-	_erro="Terminal deve ter no mínimo $_heightScreen linhas x $_widthScreen colunas!\nEncontrado $_height linhas x $_width colunas."
+	_erro="Terminal must be at least $_heightScreen lines x $_widthScreen columns!\nEncountered $_height lines x $_width columns."
 	get_out
 fi
 
@@ -2323,22 +2300,8 @@ ClearScreen
 
 tput cup $(( _initY + 12 )) 0
 
-echo "$_spaceIni    Copyright (C) 2012 Doriedson Alves Galdino de Oliveira                      "
-echo "$_spaceIni                       Thiago Andre Silva                                       "
-echo "$_spaceIni                       Vitor Augusto Andrioli                                   "
-echo "                                                                                "
-echo "$_spaceIni    This program is free software: you can redistribute it and/or modify        "
-echo "$_spaceIni    it under the terms of the GNU General Public License as published by        "
-echo "$_spaceIni    the Free Software Foundation, either version 3 of the License, or           "
-echo "$_spaceIni    (at your option) any later version.                                         "
-echo "$_spaceIni                                                                                "
-echo "$_spaceIni    This program is distributed in the hope that it will be useful,             "
-echo "$_spaceIni    but WITHOUT ANY WARRANTY; without even the implied warranty of              "
-echo "$_spaceIni    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               "
-echo "$_spaceIni    GNU General Public License for more details.                                "
-echo "                                                                                "
-echo "$_spaceIni    You should have received a copy of the GNU General Public License           "
-echo "$_spaceIni    along with this program.  If not, see <http://www.gnu.org/licenses/>.       "
+ echo "$_spaceIni    			Developed by Shreyas,Nihar,Siddhant,Ritvik				                      "
+
 
 read -n1
 
@@ -2357,6 +2320,7 @@ _tempoN=$((10#`date +%N`))
 while true; do
 
 	FPS
+	
 	
 	ListenKey
 
