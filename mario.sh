@@ -89,11 +89,11 @@ function ClearScreen {
 
 }
 
-# Função para montar a primeira fase do jogo
-function LoadFase1 {
+# Função para montar a primeira phase do jogo
+function Loadphase1 {
 	
-	_sizeFase=3000 # Tamanho da fase (largura)
-	_btela=`printf "%${_sizeFase}s"` # Variavel com caracter espaço do tamanho da fase para montar o buffer da tela
+	_sizephase=3000 # Tamanho da phase (largura)
+	_btela=`printf "%${_sizephase}s"` # Variavel com caracter espaço do tamanho da phase para montar o buffer da tela
 
 	_tamQuad=100
 
@@ -116,7 +116,7 @@ function LoadFase1 {
 	# Posicao das nuvens no cenario
 	_cloud=(0 30 220 290 450 580 750 930 1180 1430 1740 1950 2180 2450 2720 2830 2965)
 
-	# Posição dos holes na fase
+	# Posição dos holes na phase
 	_hole=(0 280 580 850 1420 1830 2300 2500)
 
 	# Vetor para guardar a posição das monts na tela
@@ -133,7 +133,7 @@ function LoadFase1 {
 	_enemyX[0]=${#_enemyX[*]} # Define a constante da quantidade de (indices no vetor dos) inimigos
 	_enemyWidth=16 # Largura do inimigo
 	_enemyHeight=(0) # Altura do inimigo eh definido no indice[0] do sprite atual
-	_enemyY=(0) # Posição do inimigo no eixo de y definido pelo piso e altura
+	_enemyY=(0) # Posição do inimigo no eixo de y definido pelo floor e altura
 	_enemyVelocX=(1) # Velocidade do inimigo
 	_enemySprite=(0) # Define qual sprite do inimigo sera desenhado
 	_enemyDead=(0) # vetor para definir inimigos vivos
@@ -188,22 +188,22 @@ function LoadFase1 {
 
 	#buffer da tela
 	for (( _k=0; _k<=36; _k++ )); do	
-		_fasel[$_k]="$_btela"
+		_phasel[$_k]="$_btela"
 	done
 	
-	#monta o piso da fase no buffer
-	_tmp=$((_sizeFase / 10))
+	#monta o floor da phase no buffer
+	_tmp=$((_sizephase / 10))
 
-	_fasel[37]=""
-	_fasel[38]=""
-	_fasel[39]=""
+	_phasel[37]=""
+	_phasel[38]=""
+	_phasel[39]=""
 
-	#Coloca o piso na fase
+	#Coloca o floor na phase
 	for (( _k=0; _k<_tmp; _k++ )); do
 
-		_fasel[37]+="${_piso1}"
-		_fasel[38]+="${_piso2}"
-		_fasel[39]+="${_piso1}"
+		_phasel[37]+="${_floor1}"
+		_phasel[38]+="${_floor2}"
+		_phasel[39]+="${_floor1}"
 
 	done
 
@@ -221,73 +221,73 @@ function LoadFase1 {
 
 			_f=$(( _tmpPos + _tmp1  ))
 
-			_fasel[$_l]="${_fasel[$_l]:0:$_tmpPos}${_cloudDraw[$_tmp0]}${_fasel[$_l]:$_f}"
+			_phasel[$_l]="${_phasel[$_l]:0:$_tmpPos}${_cloudDraw[$_tmp0]}${_phasel[$_l]:$_f}"
 		done
 	done
 
-	#desenha os holes na fase
+	#desenha os holes na phase
 #	for (( _k=1; _k<_hole[0]; _k++ )); do
 #		
 #		_tmpPos=${_hole[$_k]}
 #
 #		_f=$(( _tmpPos + 24 ))
 #
-#		_fasel[37]="${_fasel[37]:0:$_tmpPos}${_holeDraw}${_fasel[37]:$_f}"
-#		_fasel[38]="${_fasel[38]:0:$_tmpPos}${_holeDraw}${_fasel[38]:$_f}"
-#		_fasel[39]="${_fasel[39]:0:$_tmpPos}${_holeDraw}${_fasel[39]:$_f}"
+#		_phasel[37]="${_phasel[37]:0:$_tmpPos}${_holeDraw}${_phasel[37]:$_f}"
+#		_phasel[38]="${_phasel[38]:0:$_tmpPos}${_holeDraw}${_phasel[38]:$_f}"
+#		_phasel[39]="${_phasel[39]:0:$_tmpPos}${_holeDraw}${_phasel[39]:$_f}"
 #	done
 
-	#desenha as montanhas no buffer da fase
+	#desenha as montanhas no buffer da phase
 	for (( _k=1; _k<_mont[0]; _k++ )); do
 
 		_montX=${_mont[$_k]}
 		_tmp2=$(( _montX + _montWidth ))
 		for (( _l=1; _l<=7; _l++ )); do
 			_tmp=$((_l + 29 ))
-			_fasel[$_tmp]="${_fasel[$_tmp]:0:$_montX}${_montDraw[$_l]}${_fasel[$_tmp]:$_tmp2}"
+			_phasel[$_tmp]="${_phasel[$_tmp]:0:$_montX}${_montDraw[$_l]}${_phasel[$_tmp]:$_tmp2}"
 		done
 	done
 
-	#desenha os blocks na fase
+	#desenha os blocks na phase
 	for (( _k=1; _k<_block[0]; _k++ )); do
 
 		_blockX=${_block[$_k]}
 		_tmp2=$(( _blockX + _blockWidth ))
 
-		_fasel[$((_blockY))]="${_fasel[$((_blockY))]:0:$_blockX}${_blockDraw[0]}${_fasel[$((_blockY))]:$_tmp2}"
-		_fasel[$((_blockY+1))]="${_fasel[$((_blockY+1))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+1))]:$_tmp2}"
-		_fasel[$((_blockY+2))]="${_fasel[$((_blockY+2))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+2))]:$_tmp2}"
-		_fasel[$((_blockY+3))]="${_fasel[$((_blockY+3))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+3))]:$_tmp2}"
-		_fasel[$((_blockY+4))]="${_fasel[$((_blockY+4))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+4))]:$_tmp2}"
-		_fasel[$((_blockY+5))]="${_fasel[$((_blockY+5))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+5))]:$_tmp2}"
-		_fasel[$((_blockY+6))]="${_fasel[$((_blockY+6))]:0:$_blockX}${_blockDraw[0]}${_fasel[$((_blockY+6))]:$_tmp2}"
+		_phasel[$((_blockY))]="${_phasel[$((_blockY))]:0:$_blockX}${_blockDraw[0]}${_phasel[$((_blockY))]:$_tmp2}"
+		_phasel[$((_blockY+1))]="${_phasel[$((_blockY+1))]:0:$_blockX}${_blockDraw[1]}${_phasel[$((_blockY+1))]:$_tmp2}"
+		_phasel[$((_blockY+2))]="${_phasel[$((_blockY+2))]:0:$_blockX}${_blockDraw[1]}${_phasel[$((_blockY+2))]:$_tmp2}"
+		_phasel[$((_blockY+3))]="${_phasel[$((_blockY+3))]:0:$_blockX}${_blockDraw[1]}${_phasel[$((_blockY+3))]:$_tmp2}"
+		_phasel[$((_blockY+4))]="${_phasel[$((_blockY+4))]:0:$_blockX}${_blockDraw[1]}${_phasel[$((_blockY+4))]:$_tmp2}"
+		_phasel[$((_blockY+5))]="${_phasel[$((_blockY+5))]:0:$_blockX}${_blockDraw[1]}${_phasel[$((_blockY+5))]:$_tmp2}"
+		_phasel[$((_blockY+6))]="${_phasel[$((_blockY+6))]:0:$_blockX}${_blockDraw[0]}${_phasel[$((_blockY+6))]:$_tmp2}"
 	done
 
-	#desenha moedas na fase
+	#desenha moedas na phase
 #	for (( _k=1; _k<_coin[0]; _k++ )); do
 
 #		_coinX=${_coin[$_k]}
 #		_tmp2=$(( _coinX + _coinWidth ))
 #		for (( _l=1; _l<=5; _l++ )); do
 #			_tmp=$((_l+8))
-#			_fasel[$_tmp]="${_fasel[$_tmp]:0:$_coinX}${_coinDraw[$_l]}${_fasel[$_tmp]:$_tmp2}"
+#			_phasel[$_tmp]="${_phasel[$_tmp]:0:$_coinX}${_coinDraw[$_l]}${_phasel[$_tmp]:$_tmp2}"
 #		done
 #	done
 
-	#desenha o castelo na fase
+	#desenha o castelo na phase
 	for (( _k=1; _k<=_castle[0]; _k++ )); do
 
 		((_tmp = _k + 5))
 		_tmpL=${#_castle[$_k]}
-		_tmpI=$((_sizeFase-120))
+		_tmpI=$((_sizephase-120))
 		_tmpF=$((_tmpI + _tmpL))
 
-		_fasel[$_tmp]="${_fasel[$_tmp]:0:$_tmpI}${_castle[$_k]}${_fasel[$_tmp]:$_tmpF}"
+		_phasel[$_tmp]="${_phasel[$_tmp]:0:$_tmpI}${_castle[$_k]}${_phasel[$_tmp]:$_tmpF}"
 	done
 
 }
 
-# funcao para desenhar os holes na fase
+# funcao para desenhar os holes na phase
 function Drawhole {
 
 	_ubound=${_hole[0]}
@@ -334,25 +334,25 @@ function Drawhole {
 
 }
 
-# Funcao para montar o buffer de fundo da tela a partir da cordenada do jogador
+# Funcao para montar o buffer de fundo da tela a partir da cordenada do player
 function MontaCanvas {
 
-	#Limpa o buffer para posicionar a camera na tela da primeira fase
+	#Limpa o buffer para posicionar a camera na tela da primeira phase
 	#_canvas=""
 
-	#verifica se a posicao do jogador é menor do que o meio do terminal
+	#verifica se a posicao do player é menor do que o meio do terminal
 	if [ $_jogX -lt $_widthMid ]; then
 
 		_cameraX=0 #zera a posicao da camera
 
 	else 
-		if [ $_jogX -ge $((_sizeFase - _widthMid)) ]; then #se posicao do jogador passou do meio do terminal
+		if [ $_jogX -ge $((_sizephase - _widthMid)) ]; then #se posicao do player passou do meio do terminal
 
-			_cameraX=$((_sizeFase - _width)) #fixa a camera no final da fase
+			_cameraX=$((_sizephase - _width)) #fixa a camera no final da phase
 
 		else
 
-			_cameraX=$((_jogX - _widthMid)) #fixa o jogador no meio da camera
+			_cameraX=$((_jogX - _widthMid)) #fixa o player no meio da camera
 		fi
 	fi
 
@@ -361,15 +361,15 @@ function MontaCanvas {
 
 		_f=$(( _cameraX + _width -1))
 
-		_canvas[$_k]="${_edgeScreen}${_fasel[$_k]:$_cameraX:$_width}${_edgeScreen}"
+		_canvas[$_k]="${_edgeScreen}${_phasel[$_k]:$_cameraX:$_width}${_edgeScreen}"
 
 	done
 
 
 }
 
-#Sair do jogo para o terminal
-function Sair {
+#get_out do jogo para o terminal
+function get_out {
 
 	#Restaura configurações do terminal
 	stty $_terminal
@@ -404,7 +404,7 @@ function InitGame {
 
 	_jogLife=3 #variavel com valor inicial de vidas para o jogo
 
-	Splash #Função para exibir as vidas do jogador
+	Splash #Função para exibir as vidas do player
 	
 }
 
@@ -428,7 +428,7 @@ function SaveSettings {
 	echo "_color=$_color">>.settings
 
 }
-#Função para exibir as vidas do jogador
+#Função para exibir as vidas do player
 function Splash {
 
 	#Seta o nome da tela atual(estado do jogo)
@@ -436,19 +436,19 @@ function Splash {
 
 	LoadColors
 
-	#Registra Coordenadas iniciais do jogador
+	#Registra Coordenadas iniciais do player
 	_jogX=0
 	_jogY=0
 	_velocY=0
 	_velocX=0
 
-	_jogDead=false #Controla se o jogador morreu
+	_jogDead=false #Controla se o player morreu
 
 	# guarda qual sprite do personagem sera exibido
 	_jogAni=0 #controla a animacao de sprite para dar sensacao mais real do andar
 	_jogSprite=0
 
-	#lado do jogador (Sprite) d=direito e=esquerdo
+	#lado do player (Sprite) d=direito e=esquerdo
 	_jogSide="D"
 
 	#Preenche o buffer com a tela do Splash
@@ -476,7 +476,7 @@ function Splash {
 	
 	Render #chama função Render
 
-	LoadFase1 #Carrega a tela da primeira fase para o buffer
+	Loadphase1 #Carrega a tela da primeira phase para o buffer
 
 	sleep 1 #adormece o script por 1 segundos
 
@@ -668,10 +668,10 @@ function LoadColors {
 
 }
 
-#Desenha o Jogador no buffer da tela
-function DrawJogador {
+#Desenha o player no buffer da tela
+function Drawplayer {
 
-	#Calcula a posição inicial do desenho do jogador no buffer da tela
+	#Calcula a posição inicial do desenho do player no buffer da tela
 	_tmpJogX=$((_jogX - (_cameraX - _edgeWidth)))
 	_tmpIni=1
 
@@ -684,10 +684,10 @@ function DrawJogador {
 		_tmpJogHeight=$_jogHeight
 	fi
 
-	#Laço para desenhar o jogador
+	#Laço para desenhar o player
 	for (( _l=_tmpIni; _l<=_tmpJogHeight; _l++ )); do
 
-		#Pega pŕoxima variável(linha) do desenho do jogador
+		#Pega pŕoxima variável(linha) do desenho do player
 		_tmp="_mario${_jogSide}${_jogSprite}[$_l]"
 
 		#Lê o valor da variável como nome de outro variavel
@@ -744,7 +744,7 @@ function DrawScore {
 #Desenha o buffer no terminal
 function Render {
 	
-	# se jogo esta em andamento chama função para montar o buffer da tela de acordo a posição da camera na fase	
+	# se jogo esta em andamento chama função para montar o buffer da tela de acordo a posição da camera na phase	
 	case $_screenGame in
 	
 	"GAME"|"DEAD"|"WIN"|"WINPOINT")
@@ -768,12 +768,12 @@ function Render {
 			;;
 
 		"GAME"|"DEAD"|"WIN"|"WINPOINT")
-			Drawhole #desenha holes na fase
+			Drawhole #desenha holes na phase
 			DrawScore #desenha o score no topo da tela
 			DrawCoin #desenha as moedas se existir
 			DrawEnemy #desenha o inimigo se existir
 			DrawFlag #desenha a bandeira do mastro
-			DrawJogador #Desenha o jogador
+			Drawplayer #Desenha o player
 			;;
 
 	esac
@@ -914,7 +914,7 @@ function DrawCoin {
 				#Laço para desenhar a moeda
 				for (( _l=1; _l<=_coinHeight; _l++ )); do
 
-					#Pega pŕoxima variável(linha) do desenho do jogador
+					#Pega pŕoxima variável(linha) do desenho do player
 					_tmpS="_coinDraw${_tmpSp}[$_l]"
 
 					#Lê o valor da variável como nome de outro variavel
@@ -1055,7 +1055,7 @@ function ListenKey {
 		case $_screenGame in
 
 		"MENU")
-			Sair ;; #Termina o programa
+			get_out ;; #Termina o programa
 
 		"GAME")
 			LoadMenu;; #Carrega a tela de menu
@@ -1068,10 +1068,10 @@ function ListenKey {
 
 		"GAME")
 			#_clearBuffer=true
-			#Verifica se velocidade de y é = 0 e se o personagem esta no piso entao libera para pulo
-			if [ $_velocY -eq 0 ] && [ $((_jogY+_jogHeight)) -eq $((_piso)) ]; then
+			#Verifica se velocidade de y é = 0 e se o personagem esta no floor entao libera para pulo
+			if [ $_velocY -eq 0 ] && [ $((_jogY+_jogHeight)) -eq $((_floor)) ]; then
 				Play "jump" #Toca audio do pulo
-				#_jogSprite=2 #Sprite do jogador pulando
+				#_jogSprite=2 #Sprite do player pulando
 				((_velocY=-6)) #Define velocidade do pulo
 			fi
 			;;
@@ -1083,8 +1083,8 @@ function ListenKey {
 
 		"GAME")
 			#_clearBuffer=true
-			#_jogSide=d #lado do jogador a desenhar
-			((_velocX=4)) #Velocidade do jogador em X
+			#_jogSide=d #lado do player a desenhar
+			((_velocX=4)) #Velocidade do player em X
 			;;
 		esac
 		;;
@@ -1094,8 +1094,8 @@ function ListenKey {
 
 		"GAME")
 			#_clearBuffer=true
-			#_jogSide=e #lado do jogador a desenhar
-			((_velocX=-4)) #velocidade do jogador em X
+			#_jogSide=e #lado do player a desenhar
+			((_velocX=-4)) #velocidade do player em X
 			;;
 		esac
 		;;
@@ -1219,8 +1219,8 @@ function FPS {
 }
 
 
-#Funcao para calcular o movimento do jogador
-function Jogador {
+#Funcao para calcular o movimento do player
+function player {
 
 	case $_screenGame in
 
@@ -1236,18 +1236,18 @@ function Jogador {
 
 	"WIN")
 
-		# Controla o movimento na vertical(pulo) e faz Collision com o piso do cenario
-		if [ $_velocY -ne 0 ] || [ $((_jogY - 1 + _jogHeight)) -ne $((_piso - 1)) ]; then	
+		# Controla o movimento na vertical(pulo) e faz Collision com o floor do cenario
+		if [ $_velocY -ne 0 ] || [ $((_jogY - 1 + _jogHeight)) -ne $((_floor - 1)) ]; then	
 
 			_jogSprite="2"
 			((_velocY+=_gravidade)) #incremento de velocidade pela gravidade
 			((_jogY+=_velocY)) #incremento de posição vertical do personagem pela velocidade
 			((_flagY=_jogY))
-			#verifica se o personagem atravessou o piso
-			if [ $((_jogY - 1 + _jogHeight)) -ge $((_piso)) ]; then
+			#verifica se o personagem atravessou o floor
+			if [ $((_jogY - 1 + _jogHeight)) -ge $((_floor)) ]; then
 				_jogAni=0
 				_jogSprite="0"
-				((_jogY=_piso - _jogHeight)) #nao houve Collision entao posiciona o personagem no piso
+				((_jogY=_floor - _jogHeight)) #nao houve Collision entao posiciona o personagem no floor
 				_velocY=0 #zera a velocidade de y
 				Play "worldcleared"
 			fi
@@ -1268,7 +1268,7 @@ function Jogador {
 		fi
 		;;
 
-	"GAME"|"DEAD") # se jogo em fase ou personagem morto processa movimento do personagem
+	"GAME"|"DEAD") # se jogo em phase ou personagem morto processa movimento do personagem
 		if [ $_jogDead = true ]; then
 			((_velocY+=_gravidade))
 			((_jogY+=_velocY))
@@ -1276,7 +1276,7 @@ function Jogador {
 				if [ $_jogLife -eq 0 ]; then # se acabou as vidas do personagem termina jogo e volta para o menu principal
 					sleep 1
 					GameOver
-				else # se não mostra vidas restante do jogador
+				else # se não mostra vidas restante do player
 					sleep 2
 					Splash
 				fi
@@ -1297,12 +1297,12 @@ function Jogador {
 
 				_jogSide="E"
 
-				#Collision com o comeco e o fim da fase
+				#Collision com o comeco e o fim da phase
 				if [ $_jogX -lt 0 ]; then
 					_jogX=0
 				fi
 				
-				#se personagem toca o piso a velocidade do persogem em x sofre alteração
+				#se personagem toca o floor a velocidade do persogem em x sofre alteração
 				if [ $_velocY -eq 0 ]; then
 					((_velocX++))
 				fi
@@ -1312,11 +1312,11 @@ function Jogador {
 				_jogSide="D"
 
 				#Collision  com o fim do cenario
-				if [ $_jogX -gt $((_sizeFase - _jogWidth)) ]; then
-					_jogX=$((_sizeFase - _jogWidth))
+				if [ $_jogX -gt $((_sizephase - _jogWidth)) ]; then
+					_jogX=$((_sizephase - _jogWidth))
 				fi
 
-				#se personagem toca o piso a velocidade do persogem em x sofre alteração
+				#se personagem toca o floor a velocidade do persogem em x sofre alteração
 				if [ $_velocY -eq 0 ]; then
 					((_velocX--))
 				fi
@@ -1338,21 +1338,21 @@ function Jogador {
 			_jogSprite=0
 		fi	
 
-		# Controla o movimento na vertical(pulo) e faz Collision com o piso do cenario
-		if [ $_velocY -ne 0 ] || [ $((_jogY - 1 + _jogHeight)) -ne $((_piso - 1)) ]; then	
+		# Controla o movimento na vertical(pulo) e faz Collision com o floor do cenario
+		if [ $_velocY -ne 0 ] || [ $((_jogY - 1 + _jogHeight)) -ne $((_floor - 1)) ]; then	
 
 			_jogSprite="2"
 			((_velocY+=_gravidade)) #incremento de velocidade pela gravidade
 			((_jogY+=_velocY)) #incremento de posição vertical do personagem pela velocidade
 
-			#verifica se o personagem atravessou o piso
-			if [ $((_jogY - 1 + _jogHeight)) -ge $((_piso)) ]; then
+			#verifica se o personagem atravessou o floor
+			if [ $((_jogY - 1 + _jogHeight)) -ge $((_floor)) ]; then
 				_jogAni=0
 				_jogSprite="0"
 
 				Collisionhole # Verifica se houve Collision com hole
 				if [ $? -eq 0 ]; then
-					((_jogY=_piso - _jogHeight)) #nao houve Collision entao posiciona o personagem no piso
+					((_jogY=_floor - _jogHeight)) #nao houve Collision entao posiciona o personagem no floor
 					_velocY=0 #zera a velocidade de y
 				fi
 
@@ -1504,9 +1504,9 @@ function CollisionCoin {
 
 		_tmp2=$(( _coinX + _coinWidth )) #pega a posicao do final da moeda
 
-#		for (( _k=9; _k<=13; _k++ )); do #limpa o desenho da moeda no buffer da fase
+#		for (( _k=9; _k<=13; _k++ )); do #limpa o desenho da moeda no buffer da phase
 
-#			_fasel[$_k]="${_fasel[$_k]:0:$_coinX}${_coinClear}${_fasel[$_k]:$_tmp2}"
+#			_phasel[$_k]="${_phasel[$_k]:0:$_coinX}${_coinClear}${_phasel[$_k]:$_tmp2}"
 
 #		done
 
@@ -1565,7 +1565,7 @@ function Collisionblock {
 		#Próximo if verifica se a colisão foi lateral para não quebrar o block
 		if [ $((_jogY - _velocY)) -lt $((_blockY -1 + _blockHeight)) ]; then
 
-			if [ $_jogSide = "D" ]; then # se não houve Collision posiciona o jogador ao lado do block
+			if [ $_jogSide = "D" ]; then # se não houve Collision posiciona o player ao lado do block
 				_jogX=$((_blockX - 16))
 			else
 				_jogX=$((_blockX + _blockWidth))
@@ -1578,14 +1578,14 @@ function Collisionblock {
 		Play "block" #som do block quebrando
 		Score 50 #incrementa score			
 		_block[$_tmp]=0 #Limpa o block do vetor
-		_jogY=$((_blockY + _blockHeight)) #posiciona o jogador abaixo do block
+		_jogY=$((_blockY + _blockHeight)) #posiciona o player abaixo do block
 		_velocY=$((- _velocY)) #incrementa a velocidade de y
 
 
 		_tmp2=$(( _blockX + _blockWidth )) #variavel para definir final do desenho do block (limpar)
 
-		for (( _k=_blockY; _k<_blockY+_blockHeight; _k++ )); do #limpa o desenho do block do buffer da fase
-			_fasel[$_k]="${_fasel[$_k]:0:$_blockX}${_blockClear}${_fasel[$_k]:$_tmp2}"
+		for (( _k=_blockY; _k<_blockY+_blockHeight; _k++ )); do #limpa o desenho do block do buffer da phase
+			_phasel[$_k]="${_phasel[$_k]:0:$_blockX}${_blockClear}${_phasel[$_k]:$_tmp2}"
 		done
 
 		return 1 #retorna que houve Collision
@@ -1593,7 +1593,7 @@ function Collisionblock {
 
 }
 
-#Funcao para detectar Collision do personagem com holes na fase
+#Funcao para detectar Collision do personagem com holes na phase
 function Collisionhole {
 
 	for (( _k=1; _k<_hole[0]; _k++ )); do
@@ -1620,7 +1620,7 @@ function Dead {
 
 	((_jogLife--)) #Subtrai um vida do personagem
 	
-	if [ $_jogLife = 0 ]; then #se zerou as vidas do jogador toca audio fim de jogo
+	if [ $_jogLife = 0 ]; then #se zerou as vidas do player toca audio fim de jogo
 		Play "gameover"
 	else #se não toca audio de perda de vida
 		Play "die"
@@ -1714,7 +1714,7 @@ function MoveEnemy {
 
 	case $_screenGame in
 
-	"GAME") # se jogo em fase processa movimento do inimigo
+	"GAME") # se jogo em phase processa movimento do inimigo
 
 		#_firstQ=$(( _cameraX / _tamQuad )) #pega o primeiro quadrante
 		_ubound=${_enemyX[0]}
@@ -1760,7 +1760,7 @@ function MoveEnemy {
 
 			_enemyHeight[$_k]="_gompa${_enemySprite[$_k]}[0]"	
 			_enemyHeight[$_k]=${!_enemyHeight[$_k]}
-			_enemyY[$_k]=$((_piso - _enemyHeight[$_k]))
+			_enemyY[$_k]=$((_floor - _enemyHeight[$_k]))
 
 		done
 		
@@ -1795,7 +1795,7 @@ _scoreTitle0="     MARIO                                   WORLD               T
 _scoreTitle1="     000000                 @x00              1-1                 000           "
 
 
-# Mapa de caracters do jogador mario e das montanhas de fundo
+# Mapa de caracters do player mario e das montanhas de fundo
 
 _montDraw[0]=7
 _montDraw[1]="              ████████              "
@@ -2207,11 +2207,11 @@ _coinDraw2[3]="    @@    "
 _coinDraw2[4]="    @@    "
 _coinDraw2[5]="    @@    "
 
-# Cria o mapa de caracters para o piso
-_piso1='░░░░██░░░░'
-_piso2='█░░░░░░░░█'
+# Cria o mapa de caracters para o floor
+_floor1='░░░░██░░░░'
+_floor2='█░░░░░░░░█'
 
-_holeDraw="██                         ██" # Variavel para desenhar o hole na fase
+_holeDraw="██                         ██" # Variavel para desenhar o hole na phase
 
 # Buffer de desenho do block
 _blockDraw[0]="███████████████"
@@ -2244,14 +2244,14 @@ if [ $TERM = "linux" ]; then
 	_cor[0]="\E[00;37;41m" # logo
 	_cor[1]="\E[00;37;46m" # Title
 	_cor[2]="\E[00;30;46m" # ceu
-	_cor[3]="\E[00;31;42m" # piso
+	_cor[3]="\E[00;31;42m" # floor
 	_cor[4]="\E[00;33;46m" # amarelo para coin
 	_cor[5]="\E[00;36;46m" # invisible
 else
 	_cor[0]="\E[01;37;41m" # logo
 	_cor[1]="\E[01;37;46m" # Title
 	_cor[2]="\E[02;30;46m" # ceu
-	_cor[3]="\E[02;31;42m" # piso
+	_cor[3]="\E[02;31;42m" # floor
 	_cor[4]="\E[01;33;46m" # amarelo para coin
 	_cor[5]="\E[00;36;46m" # invisible
 fi
@@ -2271,8 +2271,8 @@ _next=false
 # inicializa variavel para posicao da camera no cenario
 _cameraX=0
 
-# inicializa variavel para definir a largura da fase em caracters
-_sizeFase=0
+# inicializa variavel para definir a largura da phase em caracters
+_sizephase=0
 
 #Cores possíveis no terminal
 # 0 preto
@@ -2295,7 +2295,7 @@ TerminalSize
 _score=0 #Variavel para guardar o score atual do jogo
 _coins=0 #Variavel para as moedas capturadas no jogo
 _world="1-1" #Nivel atual do jogo
-_timeGame=300 #Define quanto tempo terá a fase
+_timeGame=300 #Define quanto tempo terá a phase
 _timeIni=0 #Guarda o tempo em segundos do inicio do jogo
 _time=0 #Tempo atual do jogo em segundos
 
@@ -2306,13 +2306,13 @@ _jogAni=0 #Controla a animacao de sprite para dar sensacao mais real do andar
 # guarda qual sprite do personagem sera exibido
 _jogSprite=0
 
-#qual lado do jogador (d=direito e=esquerdo) será exibido
+#qual lado do player (d=direito e=esquerdo) será exibido
 _jogSide="D"
 
 _jogHeight=16
 _jogWidth=16
 
-# Coordenadas iniciais do jogador x,y e velocidade em x e y
+# Coordenadas iniciais do player x,y e velocidade em x e y
 _jogX=0
 _jogY=0
 _velocY=0
@@ -2330,8 +2330,8 @@ _screenGame="MENU"
 # Fisica do Jogo
 _gravidade=1
 
-# Coordenada da posicao do piso no cenario para Collision do personagem
-_piso=37
+# Coordenada da posicao do floor no cenario para Collision do personagem
+_floor=37
 
 # Variaveis de controle de calculo e exibicao de quadros por segundo do jogo (velocidade do jogo)
 _quadroRender=0
@@ -2347,7 +2347,7 @@ _clearBuffer=false
 # caso contrário gera um erro, termina o programa e exibe mensagem para o usuario
 if [ $_height -lt $_heightScreen ] || [ $_width -lt $_widthScreen ]; then
 	_erro="Terminal deve ter no mínimo $_heightScreen linhas x $_widthScreen colunas!\nEncontrado $_height linhas x $_width colunas."
-	Sair
+	get_out
 fi
 
 ClearScreen
@@ -2396,7 +2396,7 @@ while true; do
 
 		MoveEnemy #Calcula movimento do inimigo		
 
-		Jogador #Calcula Coordenadas do Jogador
+		player #Calcula Coordenadas do player
 
 		Render #Renderiza o jogo no terminal
 	fi
