@@ -110,24 +110,24 @@ function LoadFase1 {
 	# Posicao das moedas no cenario
 	_coin=(0 80 190 210 330 350 370 390 410 430 660 800 830 860 890 1010 1080 1150 1240 1260 1280 1370 1390 1410 1480 1500 1520 1540 1590 1650 1720 1810 1830 1850 1870 1890 2260 2290 2320 2350 2410 2540 2570 2600 2630)
 
-	# Posicao dos blocos no cenario
-	_bloco=(0 105 135 165 495 525 555 630 690 975 1035 1110 1305 1320 1335 1560 1620 1680 1785 1920 2010 2040 2070 2100 2130 2160 2385 2670 2760 2790)
+	# Posicao dos blocks no cenario
+	_block=(0 105 135 165 495 525 555 630 690 975 1035 1110 1305 1320 1335 1560 1620 1680 1785 1920 2010 2040 2070 2100 2130 2160 2385 2670 2760 2790)
 
 	# Posicao das nuvens no cenario
-	_nuvem=(0 30 220 290 450 580 750 930 1180 1430 1740 1950 2180 2450 2720 2830 2965)
+	_cloud=(0 30 220 290 450 580 750 930 1180 1430 1740 1950 2180 2450 2720 2830 2965)
 
-	# Posição dos buracos na fase
-	_buraco=(0 280 580 850 1420 1830 2300 2500)
+	# Posição dos holes na fase
+	_hole=(0 280 580 850 1420 1830 2300 2500)
 
 	# Vetor para guardar a posição das monts na tela
 	_mont=(0 35 150 210 390 520 740 810 960 1050 1180 1250 1360 1570 1780 1900 2060 2120 2350 2420 2580 2790) 
 
-	_nuvem[0]=${#_nuvem[*]} # Define a quantidade de nuvens no cenario
-	_nuvemY=(0) # Posicao em Y da nuvem no cenario
-	_nuvemHeight=$_nuvem[0] # Altura da nuvem no cenario
+	_cloud[0]=${#_cloud[*]} # Define a quantidade de nuvens no cenario
+	_cloudY=(0) # Posicao em Y da cloud no cenario
+	_cloudHeight=$_cloud[0] # Altura da cloud no cenario
 
-	for (( _k=1; _k<_nuvem[0]; _k++ )); do
-		_nuvemY[$_k]=2
+	for (( _k=1; _k<_cloud[0]; _k++ )); do
+		_cloudY[$_k]=2
 	done
 
 	_enemyX[0]=${#_enemyX[*]} # Define a constante da quantidade de (indices no vetor dos) inimigos
@@ -167,24 +167,24 @@ function LoadFase1 {
 	done
 
 
-	_blocoWidth=15 #largura do bloco
-	_blocoY=8 #posicao do bloco em y
-	_blocoHeight=7 #altura do bloco
-	_blocoQ=(0) #vetor para definir o quadrante
-	_bloco[0]=${#_bloco[*]}
+	_blockWidth=15 #largura do block
+	_blockY=8 #posicao do block em y
+	_blockHeight=7 #altura do block
+	_blockQ=(0) #vetor para definir o quadrante
+	_block[0]=${#_block[*]}
 
-	for ((_k=1; _k<_bloco[0]; _k++)); do
+	for ((_k=1; _k<_block[0]; _k++)); do
 
-		_tmp=$((_bloco[_k] / _blocoWidth))
-		_blocoQ[$_tmp]=$_k
+		_tmp=$((_block[_k] / _blockWidth))
+		_blockQ[$_tmp]=$_k
 
 	done
 
 	_montWidth=30 #largura da montanha
 	_mont[0]=${#_mont[*]}
 
-	_buraco[0]=${#_buraco[*]}
-	_buracoWidth=25
+	_hole[0]=${#_hole[*]}
+	_holeWidth=25
 
 	#buffer da tela
 	for (( _k=0; _k<=36; _k++ )); do	
@@ -208,33 +208,33 @@ function LoadFase1 {
 	done
 
 	#desenha as nuvens no cenario
-	for (( _k=1; _k<_nuvem[0]; _k++ )); do
+	for (( _k=1; _k<_cloud[0]; _k++ )); do
 		
-		_tmpPos=${_nuvem[$_k]}
+		_tmpPos=${_cloud[$_k]}
 
-		_ind=${_nuvemY[$_k]}
+		_ind=${_cloudY[$_k]}
 
-		for (( _l=_ind; _l<_ind + _nuvemDraw[0]; _l++ )); do
+		for (( _l=_ind; _l<_ind + _cloudDraw[0]; _l++ )); do
 
 			_tmp0=$(( _l - _ind + 1))			
-			_tmp1=${#_nuvemDraw[$_tmp0]}
+			_tmp1=${#_cloudDraw[$_tmp0]}
 
 			_f=$(( _tmpPos + _tmp1  ))
 
-			_fasel[$_l]="${_fasel[$_l]:0:$_tmpPos}${_nuvemDraw[$_tmp0]}${_fasel[$_l]:$_f}"
+			_fasel[$_l]="${_fasel[$_l]:0:$_tmpPos}${_cloudDraw[$_tmp0]}${_fasel[$_l]:$_f}"
 		done
 	done
 
-	#desenha os buracos na fase
-#	for (( _k=1; _k<_buraco[0]; _k++ )); do
+	#desenha os holes na fase
+#	for (( _k=1; _k<_hole[0]; _k++ )); do
 #		
-#		_tmpPos=${_buraco[$_k]}
+#		_tmpPos=${_hole[$_k]}
 #
 #		_f=$(( _tmpPos + 24 ))
 #
-#		_fasel[37]="${_fasel[37]:0:$_tmpPos}${_buracoDraw}${_fasel[37]:$_f}"
-#		_fasel[38]="${_fasel[38]:0:$_tmpPos}${_buracoDraw}${_fasel[38]:$_f}"
-#		_fasel[39]="${_fasel[39]:0:$_tmpPos}${_buracoDraw}${_fasel[39]:$_f}"
+#		_fasel[37]="${_fasel[37]:0:$_tmpPos}${_holeDraw}${_fasel[37]:$_f}"
+#		_fasel[38]="${_fasel[38]:0:$_tmpPos}${_holeDraw}${_fasel[38]:$_f}"
+#		_fasel[39]="${_fasel[39]:0:$_tmpPos}${_holeDraw}${_fasel[39]:$_f}"
 #	done
 
 	#desenha as montanhas no buffer da fase
@@ -248,19 +248,19 @@ function LoadFase1 {
 		done
 	done
 
-	#desenha os blocos na fase
-	for (( _k=1; _k<_bloco[0]; _k++ )); do
+	#desenha os blocks na fase
+	for (( _k=1; _k<_block[0]; _k++ )); do
 
-		_blocoX=${_bloco[$_k]}
-		_tmp2=$(( _blocoX + _blocoWidth ))
+		_blockX=${_block[$_k]}
+		_tmp2=$(( _blockX + _blockWidth ))
 
-		_fasel[$((_blocoY))]="${_fasel[$((_blocoY))]:0:$_blocoX}${_blocoDraw[0]}${_fasel[$((_blocoY))]:$_tmp2}"
-		_fasel[$((_blocoY+1))]="${_fasel[$((_blocoY+1))]:0:$_blocoX}${_blocoDraw[1]}${_fasel[$((_blocoY+1))]:$_tmp2}"
-		_fasel[$((_blocoY+2))]="${_fasel[$((_blocoY+2))]:0:$_blocoX}${_blocoDraw[1]}${_fasel[$((_blocoY+2))]:$_tmp2}"
-		_fasel[$((_blocoY+3))]="${_fasel[$((_blocoY+3))]:0:$_blocoX}${_blocoDraw[1]}${_fasel[$((_blocoY+3))]:$_tmp2}"
-		_fasel[$((_blocoY+4))]="${_fasel[$((_blocoY+4))]:0:$_blocoX}${_blocoDraw[1]}${_fasel[$((_blocoY+4))]:$_tmp2}"
-		_fasel[$((_blocoY+5))]="${_fasel[$((_blocoY+5))]:0:$_blocoX}${_blocoDraw[1]}${_fasel[$((_blocoY+5))]:$_tmp2}"
-		_fasel[$((_blocoY+6))]="${_fasel[$((_blocoY+6))]:0:$_blocoX}${_blocoDraw[0]}${_fasel[$((_blocoY+6))]:$_tmp2}"
+		_fasel[$((_blockY))]="${_fasel[$((_blockY))]:0:$_blockX}${_blockDraw[0]}${_fasel[$((_blockY))]:$_tmp2}"
+		_fasel[$((_blockY+1))]="${_fasel[$((_blockY+1))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+1))]:$_tmp2}"
+		_fasel[$((_blockY+2))]="${_fasel[$((_blockY+2))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+2))]:$_tmp2}"
+		_fasel[$((_blockY+3))]="${_fasel[$((_blockY+3))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+3))]:$_tmp2}"
+		_fasel[$((_blockY+4))]="${_fasel[$((_blockY+4))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+4))]:$_tmp2}"
+		_fasel[$((_blockY+5))]="${_fasel[$((_blockY+5))]:0:$_blockX}${_blockDraw[1]}${_fasel[$((_blockY+5))]:$_tmp2}"
+		_fasel[$((_blockY+6))]="${_fasel[$((_blockY+6))]:0:$_blockX}${_blockDraw[0]}${_fasel[$((_blockY+6))]:$_tmp2}"
 	done
 
 	#desenha moedas na fase
@@ -287,39 +287,39 @@ function LoadFase1 {
 
 }
 
-# funcao para desenhar os buracos na fase
-function DrawBuraco {
+# funcao para desenhar os holes na fase
+function Drawhole {
 
-	_ubound=${_buraco[0]}
+	_ubound=${_hole[0]}
 
 	for (( _k=1; _k < _ubound; _k++ )); do #laco para verificar cada inimigo
 
-		#verifica se o buraco esta visivel na camera
-		if [ $((_buraco[_k] + _buracoWidth)) -ge $_cameraX ] && [ ${_buraco[$_k]} -le $((_cameraX + _width)) ]; then 
+		#verifica se o hole esta visivel na camera
+		if [ $((_hole[_k] + _holeWidth)) -ge $_cameraX ] && [ ${_hole[$_k]} -le $((_cameraX + _width)) ]; then 
 
-			_buracoX=$(( _buraco[_k] + _edgeWidth - _cameraX ))
-			_buracoL=$(( _buracoX + _buracoWidth ))
+			_holeX=$(( _hole[_k] + _edgeWidth - _cameraX ))
+			_holeL=$(( _holeX + _holeWidth ))
 
 			_tmp=${_canvasC[0]}
 
 			for (( _l=37; _l<40; _l++ )); do
-				_canvas[$_l]="${_canvas[$_l]:0:$((_buracoX-2))}${_buracoDraw}${_canvas[$_l]:$((_buracoL+2))}"
+				_canvas[$_l]="${_canvas[$_l]:0:$((_holeX-2))}${_holeDraw}${_canvas[$_l]:$((_holeL+2))}"
 
 				if [ $_color = "on" ]; then
 					_tmp=${_canvasC[0]}
 					((_tmp++))
 					_canvasC[$_tmp]=${_cor[2]}
-					if [ $((_buracoX - _edgeWidth)) -lt 0 ]; then
+					if [ $((_holeX - _edgeWidth)) -lt 0 ]; then
 						_canvasP[$_tmp]=$((_width * _l))
 					else
-						_canvasP[$_tmp]=$(( (_width * _l) + _buracoX - _edgeWidth ))
+						_canvasP[$_tmp]=$(( (_width * _l) + _holeX - _edgeWidth ))
 					fi
 					((_tmp++))
 					_canvasC[$_tmp]=${_cor[3]}
-					if [ $((_buracoL - _edgeWidth)) -gt $_width ]; then
+					if [ $((_holeL - _edgeWidth)) -gt $_width ]; then
 						_canvasP[$_tmp]=$(( _width * (_l+1) ))
 					else
-						_canvasP[$_tmp]=$(( (_width * _l) + _buracoL - _edgeWidth ))
+						_canvasP[$_tmp]=$(( (_width * _l) + _holeL - _edgeWidth ))
 					fi
 
 					_canvasC[0]=$_tmp
@@ -768,7 +768,7 @@ function Render {
 			;;
 
 		"GAME"|"DEAD"|"WIN"|"WINPOINT")
-			DrawBuraco #desenha buracos na fase
+			Drawhole #desenha holes na fase
 			DrawScore #desenha o score no topo da tela
 			DrawCoin #desenha as moedas se existir
 			DrawEnemy #desenha o inimigo se existir
@@ -1236,7 +1236,7 @@ function Jogador {
 
 	"WIN")
 
-		# Controla o movimento na vertical(pulo) e faz colisao com o piso do cenario
+		# Controla o movimento na vertical(pulo) e faz Collision com o piso do cenario
 		if [ $_velocY -ne 0 ] || [ $((_jogY - 1 + _jogHeight)) -ne $((_piso - 1)) ]; then	
 
 			_jogSprite="2"
@@ -1247,7 +1247,7 @@ function Jogador {
 			if [ $((_jogY - 1 + _jogHeight)) -ge $((_piso)) ]; then
 				_jogAni=0
 				_jogSprite="0"
-				((_jogY=_piso - _jogHeight)) #nao houve colisao entao posiciona o personagem no piso
+				((_jogY=_piso - _jogHeight)) #nao houve Collision entao posiciona o personagem no piso
 				_velocY=0 #zera a velocidade de y
 				Play "worldcleared"
 			fi
@@ -1285,7 +1285,7 @@ function Jogador {
 			return
 		fi
 
-		# Controla o movimento na horizontal do personagem e faz colisao com os limites do cenario
+		# Controla o movimento na horizontal do personagem e faz Collision com os limites do cenario
 		if [ $_velocX -ne 0 ]; then	
 			
 			if [ $_velocX -gt 0 ]; then
@@ -1297,7 +1297,7 @@ function Jogador {
 
 				_jogSide="E"
 
-				#Colisao com o comeco e o fim da fase
+				#Collision com o comeco e o fim da fase
 				if [ $_jogX -lt 0 ]; then
 					_jogX=0
 				fi
@@ -1311,7 +1311,7 @@ function Jogador {
 				#determina o sprite da posicao que o personagem anda
 				_jogSide="D"
 
-				#colisao  com o fim do cenario
+				#Collision  com o fim do cenario
 				if [ $_jogX -gt $((_sizeFase - _jogWidth)) ]; then
 					_jogX=$((_sizeFase - _jogWidth))
 				fi
@@ -1338,7 +1338,7 @@ function Jogador {
 			_jogSprite=0
 		fi	
 
-		# Controla o movimento na vertical(pulo) e faz colisao com o piso do cenario
+		# Controla o movimento na vertical(pulo) e faz Collision com o piso do cenario
 		if [ $_velocY -ne 0 ] || [ $((_jogY - 1 + _jogHeight)) -ne $((_piso - 1)) ]; then	
 
 			_jogSprite="2"
@@ -1350,15 +1350,15 @@ function Jogador {
 				_jogAni=0
 				_jogSprite="0"
 
-				ColisaoBuraco # Verifica se houve colisao com buraco
+				Collisionhole # Verifica se houve Collision com hole
 				if [ $? -eq 0 ]; then
-					((_jogY=_piso - _jogHeight)) #nao houve colisao entao posiciona o personagem no piso
+					((_jogY=_piso - _jogHeight)) #nao houve Collision entao posiciona o personagem no piso
 					_velocY=0 #zera a velocidade de y
 				fi
 
 			fi
 		else
-			ColisaoBuraco # Verifica se houve colisao com buraco
+			Collisionhole # Verifica se houve Collision com hole
 	
 		fi
 
@@ -1368,34 +1368,34 @@ function Jogador {
 
 	if [ $_screenGame = "GAME" ]; then
 		
-		#verifica qual sentido o personagem está andando para dar prioridade a colisao do bloco da esquerda ou direita quando colidir com dois
+		#verifica qual sentido o personagem está andando para dar prioridade a Collision do block da esquerda ou direita quando colidir com dois
 		if [ $_jogSide = "D" ]; then
-			_tmp2=$(( _jogX / _blocoWidth ))
-			_tmp1=$(( ((_jogX+15)) / _blocoWidth ))
+			_tmp2=$(( _jogX / _blockWidth ))
+			_tmp1=$(( ((_jogX+15)) / _blockWidth ))
 		else
-			_tmp1=$(( _jogX / _blocoWidth ))
-			_tmp2=$(( ((_jogX+15)) / _blocoWidth ))
+			_tmp1=$(( _jogX / _blockWidth ))
+			_tmp2=$(( ((_jogX+15)) / _blockWidth ))
 		fi
 
-		ColisaoBloco $_tmp1 #verifica se houve colisao com o primeiro quadrante
+		Collisionblock $_tmp1 #verifica se houve Collision com o primeiro quadrante
 		if [ $? -eq 0 ]; then #se nao houve
-			ColisaoBloco $_tmp2 #verifica se houve colisao com o segundo quadrante
+			Collisionblock $_tmp2 #verifica se houve Collision com o segundo quadrante
 		fi
 		
-		#verifica colisao com as moedas, como a largura do personagem equivale a 3 moedas por isso 3 testes
-		ColisaoCoin $(( _jogX / _coinWidth ))
-		ColisaoCoin $(( ((_jogX + 8)) / _coinWidth ))
-		ColisaoCoin $(( ((_jogX + 15)) / _coinWidth ))
+		#verifica Collision com as moedas, como a largura do personagem equivale a 3 moedas por isso 3 testes
+		CollisionCoin $(( _jogX / _coinWidth ))
+		CollisionCoin $(( ((_jogX + 8)) / _coinWidth ))
+		CollisionCoin $(( ((_jogX + 15)) / _coinWidth ))
 
-		ColisaoEnemy
-		ColisaoMastro
+		CollisionEnemy
+		CollisionMastro
 
 	fi
 
 
 }
 
-function ColisaoMastro {
+function CollisionMastro {
 
 	if [ $((_jogX + _jogWidth)) -gt 2880 ]; then
 
@@ -1416,8 +1416,8 @@ function ColisaoMastro {
 
 }
 
-#funcao colisao inimigo
-function ColisaoEnemy {
+#funcao Collision inimigo
+function CollisionEnemy {
 
 	#_firstQ=$(( _cameraX / _tamQuad )) #pega o primeiro quadrante
 	_ubound=${_enemyX[0]}
@@ -1438,7 +1438,7 @@ function ColisaoEnemy {
 			elif [ $((_jogY + _jogHeight -1)) -lt ${_enemyY[$_k]} ]; then #personagem esta do lado de cima do inimigo
 				_tmp=0
 
-			#A partir daqui houve colisao
+			#A partir daqui houve Collision
 			#Próximo if verifica se a colisão foi lateral entao o personagem morre
 			elif [ $((_jogY + _jogHeight -1 - _velocY)) -lt ${_enemyY[$_k]} ]; then
 				Play "enemy"
@@ -1447,7 +1447,7 @@ function ColisaoEnemy {
 				_velocY=-3
 				_enemySprite[$_k]=2
 				_enemyDead[$_k]=1
-				return 1 #retorna que houve colisao
+				return 1 #retorna que houve Collision
 			else
 				Dead "enemy"
 				_velocY=-5
@@ -1458,7 +1458,7 @@ function ColisaoEnemy {
 					((_jogX=_enemyX[_k] + _enemyWidth))
 				fi
 				_jogSide="F"
-				return 1 #retorna que houve colisao
+				return 1 #retorna que houve Collision
 			fi
 
 			
@@ -1467,8 +1467,8 @@ function ColisaoEnemy {
 
 }
 
-#funcao para colisao com moedas
-function ColisaoCoin {
+#funcao para Collision com moedas
+function CollisionCoin {
 
 	_tmpQ=$1 #recebe o quadrante para teste
 
@@ -1480,22 +1480,22 @@ function ColisaoCoin {
 
 	_coinX=${_coin[$_tmp]} #pega a posicao x da moeda
 
-	if [ $_coinX -gt 0 ]; then #se existir moeda checar colisao
+	if [ $_coinX -gt 0 ]; then #se existir moeda checar Collision
 
 		if [ $_jogX -gt $((_coinX + _coinWidth)) ]; then #personagem esta do lado direito da moeda
-			return 0 #retorna que nao houve colisao
+			return 0 #retorna que nao houve Collision
 		fi
 
 		if [ $((_jogY)) -gt $((_coinY[_tmp] + _coinHeight)) ]; then #personagem esta do lado de baixo da moeda
-			return 0 #retorna que nao houve colisao
+			return 0 #retorna que nao houve Collision
 		fi
 
 		if [ $((_jogX + 15)) -lt $_coinX ]; then #personagem esta do lado esquerdo da moeda
-			return 0 #retorna que nao houve colisao
+			return 0 #retorna que nao houve Collision
 		fi
 
 		if [ $((_jogY+_jogHeight)) -lt ${_coinY[$_tmp]} ]; then #personagem esta do lado de cima da moeda
-			return 0 #retorna que nao houve colisao
+			return 0 #retorna que nao houve Collision
 		fi
 
 		Play "coin" #toca o som da moeda
@@ -1510,7 +1510,7 @@ function ColisaoCoin {
 
 #		done
 
-		return 1 #retorna que houve colisao
+		return 1 #retorna que houve Collision
 	fi
 
 }
@@ -1530,86 +1530,86 @@ function GetCoin {
 
 }
 
-#funcao para colisao do bloco
-function ColisaoBloco {
+#funcao para Collision do block
+function Collisionblock {
 
 	_tmpQ=$1 #recebe a posicao do quadrante
 	
-	_tmp=${_blocoQ[$_tmpQ]} #recebe a posicao do indice do bloco se existir
+	_tmp=${_blockQ[$_tmpQ]} #recebe a posicao do indice do block se existir
 
-	if [ $_tmpQ -eq 0 ] || [ -z $_tmp ]; then #verifica se o indíce do quadrante não é zero e se existe bloco no quadrante
-		return 0 #retorna que nao houve colisao
+	if [ $_tmpQ -eq 0 ] || [ -z $_tmp ]; then #verifica se o indíce do quadrante não é zero e se existe block no quadrante
+		return 0 #retorna que nao houve Collision
 	fi
 
-	_blocoX=${_bloco[$_tmp]} #pega a posicao x do bloco
+	_blockX=${_block[$_tmp]} #pega a posicao x do block
 
-	if [ $_blocoX -gt 0 ]; then #se existir bloco checar colisao
+	if [ $_blockX -gt 0 ]; then #se existir block checar Collision
 
-		if [ $_jogX -gt $((_blocoX -1 + _blocoWidth)) ]; then #personagem esta do lado direito do bloco
-			return 0 #retorna que nao houve colisao
+		if [ $_jogX -gt $((_blockX -1 + _blockWidth)) ]; then #personagem esta do lado direito do block
+			return 0 #retorna que nao houve Collision
 		fi
 
-		if [ $((_jogY)) -gt $((_blocoY -1 + _blocoHeight)) ]; then #personagem esta do lado de baixo do bloco
-			return 0 #retorna que nao houve colisao
+		if [ $((_jogY)) -gt $((_blockY -1 + _blockHeight)) ]; then #personagem esta do lado de baixo do block
+			return 0 #retorna que nao houve Collision
 		fi
 
-		if [ $((_jogX -1 + _jogWidth)) -lt $_blocoX ]; then #personagem esta do lado esquerdo do bloco
-			return 0 #retorna que nao houve colisao
+		if [ $((_jogX -1 + _jogWidth)) -lt $_blockX ]; then #personagem esta do lado esquerdo do block
+			return 0 #retorna que nao houve Collision
 		fi
 
-		if [ $((_jogY -1 + _jogHeight)) -lt $_blocoY ]; then #personagem esta do lado de cima do bloco
-			return 0 #retorna que nao houve colisao
+		if [ $((_jogY -1 + _jogHeight)) -lt $_blockY ]; then #personagem esta do lado de cima do block
+			return 0 #retorna que nao houve Collision
 		fi
 
-		#A partir daqui houve colisao
-		#Próximo if verifica se a colisão foi lateral para não quebrar o bloco
-		if [ $((_jogY - _velocY)) -lt $((_blocoY -1 + _blocoHeight)) ]; then
+		#A partir daqui houve Collision
+		#Próximo if verifica se a colisão foi lateral para não quebrar o block
+		if [ $((_jogY - _velocY)) -lt $((_blockY -1 + _blockHeight)) ]; then
 
-			if [ $_jogSide = "D" ]; then # se não houve colisao posiciona o jogador ao lado do bloco
-				_jogX=$((_blocoX - 16))
+			if [ $_jogSide = "D" ]; then # se não houve Collision posiciona o jogador ao lado do block
+				_jogX=$((_blockX - 16))
 			else
-				_jogX=$((_blocoX + _blocoWidth))
+				_jogX=$((_blockX + _blockWidth))
 			fi
 			_velocX=0
 			return 1
 
 		fi
 
-		Play "bloco" #som do bloco quebrando
+		Play "block" #som do block quebrando
 		Score 50 #incrementa score			
-		_bloco[$_tmp]=0 #Limpa o bloco do vetor
-		_jogY=$((_blocoY + _blocoHeight)) #posiciona o jogador abaixo do bloco
+		_block[$_tmp]=0 #Limpa o block do vetor
+		_jogY=$((_blockY + _blockHeight)) #posiciona o jogador abaixo do block
 		_velocY=$((- _velocY)) #incrementa a velocidade de y
 
 
-		_tmp2=$(( _blocoX + _blocoWidth )) #variavel para definir final do desenho do bloco (limpar)
+		_tmp2=$(( _blockX + _blockWidth )) #variavel para definir final do desenho do block (limpar)
 
-		for (( _k=_blocoY; _k<_blocoY+_blocoHeight; _k++ )); do #limpa o desenho do bloco do buffer da fase
-			_fasel[$_k]="${_fasel[$_k]:0:$_blocoX}${_blocoClear}${_fasel[$_k]:$_tmp2}"
+		for (( _k=_blockY; _k<_blockY+_blockHeight; _k++ )); do #limpa o desenho do block do buffer da fase
+			_fasel[$_k]="${_fasel[$_k]:0:$_blockX}${_blockClear}${_fasel[$_k]:$_tmp2}"
 		done
 
-		return 1 #retorna que houve colisao
+		return 1 #retorna que houve Collision
 	fi
 
 }
 
-#Funcao para detectar colisao do personagem com buracos na fase
-function ColisaoBuraco {
+#Funcao para detectar Collision do personagem com holes na fase
+function Collisionhole {
 
-	for (( _k=1; _k<_buraco[0]; _k++ )); do
+	for (( _k=1; _k<_hole[0]; _k++ )); do
 
-		_buracoX=${_buraco[$_k]}
+		_holeX=${_hole[$_k]}
 
-		if [ $((_jogX + (_jogWidth/2))) -gt $((_buracoX+2)) ] && [ $((_jogX + (_jogWidth/2))) -lt $((_buracoX + 2 + _buracoWidth )) ]; then #se houve colisão então mata personagem
+		if [ $((_jogX + (_jogWidth/2))) -gt $((_holeX+2)) ] && [ $((_jogX + (_jogWidth/2))) -lt $((_holeX + 2 + _holeWidth )) ]; then #se houve colisão então mata personagem
 
-			_jogX=$((_buracoX + 2 +(_buracoWidth/2) - (_jogWidth/2) ))
-			Dead "buraco"
+			_jogX=$((_holeX + 2 +(_holeWidth/2) - (_jogWidth/2) ))
+			Dead "hole"
 
-			return 1 #houve colisao
+			return 1 #houve Collision
 		fi
 
 	done
-	return 0 #nao houve colisao
+	return 0 #nao houve Collision
 }
 
 #Função para matar o personagem definindo trilha sonora e tipo de animação do personagem
@@ -1692,7 +1692,7 @@ function Play {
 		"jump")
 			canberra-gtk-play --file="jump.ogg" 1 2>/dev/null&;;
 
-		"bloco")
+		"block")
 			canberra-gtk-play --file="brick.ogg" 1 2>/dev/null&;;
 
 		"point")
@@ -2164,20 +2164,20 @@ _gompa4[0]=3
  _gompa4[2]="█████ █ ██ █ █████"
  _gompa4[3]="    ███░░░░███"
 
-_nuvemDraw[0]=13
- _nuvemDraw[1]="               ███████"
- _nuvemDraw[2]="             ██       ██" 
- _nuvemDraw[3]="           ██           ██"
- _nuvemDraw[4]="          █     █   █  ░  █"
- _nuvemDraw[5]="      ████      █   █   ░  ████"
- _nuvemDraw[6]="   ███                  ░      ███"
- _nuvemDraw[7]=" ██                          ░   █"
- _nuvemDraw[8]=" █                          ░    █"
- _nuvemDraw[9]=" ██   ░░░░            ░    ░░ ███"
-_nuvemDraw[10]="   ███   ░░░░     ░    ░░░░░  █"
-_nuvemDraw[11]="      ████  ░░░░░░  ██      ██"
-_nuvemDraw[12]="          ██      ██  ██████"
-_nuvemDraw[13]="            ██████"
+_cloudDraw[0]=13
+ _cloudDraw[1]="               ███████"
+ _cloudDraw[2]="             ██       ██" 
+ _cloudDraw[3]="           ██           ██"
+ _cloudDraw[4]="          █     █   █  ░  █"
+ _cloudDraw[5]="      ████      █   █   ░  ████"
+ _cloudDraw[6]="   ███                  ░      ███"
+ _cloudDraw[7]=" ██                          ░   █"
+ _cloudDraw[8]=" █                          ░    █"
+ _cloudDraw[9]=" ██   ░░░░            ░    ░░ ███"
+_cloudDraw[10]="   ███   ░░░░     ░    ░░░░░  █"
+_cloudDraw[11]="      ████  ░░░░░░  ██      ██"
+_cloudDraw[12]="          ██      ██  ██████"
+_cloudDraw[13]="            ██████"
 
 
 _coinDraw0[0]=5
@@ -2211,12 +2211,12 @@ _coinDraw2[5]="    @@    "
 _piso1='░░░░██░░░░'
 _piso2='█░░░░░░░░█'
 
-_buracoDraw="██                         ██" # Variavel para desenhar o buraco na fase
+_holeDraw="██                         ██" # Variavel para desenhar o hole na fase
 
-# Buffer de desenho do Bloco
-_blocoDraw[0]="███████████████"
-_blocoDraw[1]="█░░░░░░░░░░░░░█"
-_blocoClear="               "
+# Buffer de desenho do block
+_blockDraw[0]="███████████████"
+_blockDraw[1]="█░░░░░░░░░░░░░█"
+_blockClear="               "
 
 #Inicializa as variaveis existentes no programa
 #Salva as configurações atuais do terminal
@@ -2330,7 +2330,7 @@ _screenGame="MENU"
 # Fisica do Jogo
 _gravidade=1
 
-# Coordenada da posicao do piso no cenario para colisao do personagem
+# Coordenada da posicao do piso no cenario para Collision do personagem
 _piso=37
 
 # Variaveis de controle de calculo e exibicao de quadros por segundo do jogo (velocidade do jogo)
