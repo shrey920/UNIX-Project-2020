@@ -66,23 +66,13 @@ function ResizeScreen {
 
 	
 
-	ClearScreen
 
 	_scoreX=$((((_width-80))/2))
 
 }
 
 
-function ClearScreen {
 
-	tput cup 0 0
-	
-	
-	echo -ne "\E[00;30;47m$_clearScreen"
-
-	tput cup $_initY 0
-
-}
 
 
 function Loadphase1 {
@@ -98,9 +88,9 @@ function Loadphase1 {
 	_flagY=6
 
 	
-	_enemyX=(0 200 350 500 650 900 1490 1750 2030 2450 2780) 
-	_enemyPathIni=(0 150 320 460 610 880 1480 1710 2000 2330 2700)
-	_enemyPathFim=(0 250 420 560 710 980 1580 1810 2100 2480 2800)
+	_enemyX=(0 50 200 350 500 650 900 1490 1750 2030 2450 2780) 
+	_enemyPathIni=(0 0 150 320 460 610 880 1480 1710 2000 2330 2700)
+	_enemyPathFim=(0 100 250 420 560 710 980 1580 1810 2100 2480 2800)
 
 	
 	_coin=(0 80 190 210 330 350 370 390 410 430 660 800 830 860 890 1010 1080 1150 1240 1260 1280 1370 1390 1410 1480 1500 1520 1540 1590 1650 1720 1810 1830 1850 1870 1890 2260 2290 2320 2350 2410 2540 2570 2600 2630)
@@ -117,7 +107,7 @@ function Loadphase1 {
 	
 	_mont=(0 35 150 210 390 520 740 810 960 1050 1180 1250 1360 1570 1780 1900 2060 2120 2350 2420 2580 2790) 
 
-	_cloud[0]=${#_cloud[*]}
+	_cloud[0]=5
 	_cloudY=(0)
 	_cloudHeight=$_cloud[0]
 
@@ -2108,7 +2098,6 @@ if [ $_height -lt $_heightScreen ] || [ $_width -lt $_widthScreen ]; then
 	get_out
 fi
 
-ClearScreen
 
 tput cup $(( _initY + 12 )) 0
 
@@ -2117,7 +2106,7 @@ tput cup $(( _initY + 12 )) 0
 
 read -n1
 
-ClearScreen
+
 
 
 
@@ -2135,6 +2124,8 @@ while true; do
 	
 	
 	ListenKey
+
+
 
 	if [ $_next = true ]; then
 
